@@ -12,7 +12,11 @@ define(['graph', 'util'], function ( Graph, util ) {
         this.height = 10;
         this.fillColor = '#fff';
         this.strokeColor = '#333';
+        this.fillStyle = null;
         this.scale = 1;
+        this.rotate = 0;
+
+        this.border = true;
     }
     Rect.prototype = util.copy(Graph.prototype);
     Rect.prototype.constructor= Rect;
@@ -20,8 +24,14 @@ define(['graph', 'util'], function ( Graph, util ) {
         var rect = this;
         ctx.save();
         ctx.translate(rect.x, rect.y);
-        ctx.fillStyle = rect.fillColor;
-        ctx.strokeStyle = rect.strokeColor;
+        if(this.fillStyle){
+            ctx.fillStyle = rect.fillStyle;
+        } else{
+            ctx.fillStyle = rect.fillColor;
+        }
+        if(rect.border){
+            ctx.strokeStyle = rect.strokeColor;
+        }
 
         ctx.shadowColor = "#333"; // string
         ctx.scale(rect.scale, rect.scale);
