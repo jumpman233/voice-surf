@@ -10,14 +10,14 @@ define(['rect'], function ( Rect ) {
     }
     HpBar.prototype = {
         constructor: HpBar,
-        init: function ( x, y ) {
+        init: function ( x, y, w, h ) {
             this.hp = 100;
             this.bkRect.x = x;
             this.bkRect.y = y;
             this.bkRect.fillColor = 'white';
             this.bkRect.strokeColor = 'black';
-            this.bkRect.width = 200;
-            this.bkRect.height = 30;
+            this.bkRect.width = w;
+            this.bkRect.height = h;
 
             this.hpRect.x = x + 1;
             this.hpRect.y = y + 1;

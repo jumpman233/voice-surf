@@ -24,7 +24,7 @@ define(['rect'], function ( Rect ) {
 
             this.bkRect.x = x;
             this.bkRect.y = y;
-            this.bkRect.height = 80;
+            this.bkRect.height = 200;
             this.bkRect.width = 30;
         },
         update: function ( power ) {
@@ -34,13 +34,16 @@ define(['rect'], function ( Rect ) {
             if(!this.gradiant){
                 this.gradiant = ctx.createLinearGradient(0, this.powerRect.height, 0, 0);
                 this.gradiant.addColorStop(0, 'rgb(255, 0, 0)');
-                this.gradiant.addColorStop(0.5, 'rgb(0, 255, 0)');
+                this.gradiant.addColorStop(0.3, 'rgb(0, 255, 0)');
                 this.gradiant.addColorStop(1, 'rgb(0, 0, 255)');
                 this.bkRect.fillStyle = this.gradiant;
             }
             this.powerRect.height = this.bkRect.height * (100 - this.power) / 100;
             this.bkRect.draw(ctx);
             this.powerRect.draw(ctx);
+        },
+        getSpeed: function (  ) {
+            return this.power / 10 < 1 ? 1 : this.power / 10;
         }
     };
 
