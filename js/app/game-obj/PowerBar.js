@@ -16,7 +16,7 @@ define(['rect'], function ( Rect ) {
     PowerBar.prototype = {
         constructor: PowerBar,
         init: function ( x, y ) {
-            this.power = 100;
+            this.power = 0;
 
             this.powerRect.height = 80 - 2;
             this.powerRect.width = 30 - 2;

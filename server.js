@@ -30,11 +30,14 @@ http.createServer(function ( req, res ) {
     var pathName = __dirname + url.parse(req.url).pathname;
 
     if(pathName == __dirname + '/getPlayer'){
-        var index = 0,
+        var query = url.parse(req.url,true).query,
+            index = 0,
+            name = query.name,
             p1 = true;
         if(list.length === 0){
             var pair = new Pair();
             pair.p1.init = true;
+            pair.p1.name = name;
             list.push(pair);
         } else{
             var flag = false;
@@ -42,6 +45,7 @@ http.createServer(function ( req, res ) {
                 if (!list[i].init) {
                     list[i].p2.init = true;
                     list[i].init = true;
+                    list[i].p2.name = name;
                     p1 = false;
                     flag = true;
                     index = i;
@@ -50,6 +54,7 @@ http.createServer(function ( req, res ) {
             if(!flag){
                 var pair = new Pair();
                 pair.p1.init = true;
+                pair.p1.name = name;
                 list.push(pair);
                 index = list.length - 1;
             }
@@ -74,12 +79,9 @@ http.createServer(function ( req, res ) {
 
     if(pathName == __dirname + '/getData'){
         var query = url.parse(req.url,true).query,
-            p1 = parseInt(query.player),
+            p1 = parseInt(query.p1),
             _pair = list[query.pairNum],
             player = p1 == 1 ? _pair.p1 : _pair.p2;
-        console.log(p1);
-        console.log(p1 == 1);
-        console.log(p1 === 1);
 
         if(player.power >= 0){
             var val = player.power;
@@ -87,6 +89,26 @@ http.createServer(function ( req, res ) {
             res.end(val);
         } else{
             res.end('no-update');
+        }
+    }
+
+    if(pathName == __dirname + '/canStart'){
+        var query = url.parse(req.url,true).query,
+            p1 = parseInt(query.p1),
+            _pair = list[query.pairNum],
+            player = p1 == 1 ? _pair.p1 : _pair.p2,
+            anoPlayer = p1 == 1 ? _pair.p2 : _pair.p1;
+
+        if((p1 == 1 && _pair.p2.init) ||
+            (p1 == 0 && _pair.p1.init)){
+            res.end(JSON.stringify({
+                state: 'yes',
+                anoPlayerName: anoPlayer.name
+            }));
+        } else{
+            res.end(JSON.stringify({
+                state: 'no'
+            }));
         }
     }
 
