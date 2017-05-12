@@ -44,6 +44,7 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background'],
         hpBar2.init(width / 5 * 3 - 10, 30, width / 5 * 2, 30);
         newBar.init(10, height / 5);
         background.init(width, height);
+        newBar.power = 100;
 
         $.ajax('http://192.168.25.204:3000/getPlayer', {
             success: function ( data ) {
@@ -58,7 +59,6 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background'],
                     anoPlayer = player1;
                     p1 = false;
                 }
-                console.log(p1);
             }
         }).then(function (  ) {
             return player1.init({
@@ -92,19 +92,11 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background'],
             setInterval(draw, 30);
         });
 
-        newBar.update(0);
-
-        var d = 3;
-        function add(  ) {
-            var d = newBar.getSpeed();
-            if(newBar.power > 100 || newBar.power < 0){
-                d = -d;
-            }
-            newBar.power += d;
-        }
         var a;
         document.addEventListener('mousedown', function (  ) {
-            a = window.setInterval(add, 50);
+            a = window.setInterval(function (  ) {
+                newBar.update();
+            }, 20);
         });
         document.addEventListener('mouseup', function (  ) {
             window.clearInterval(a);
@@ -117,6 +109,7 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background'],
                 },
                 success: function ( data ) {
                     console.log(data);
+                    newBar.power = 0;
                 },
                 error: function (  ) {
                     console.log('ajax error!');
@@ -143,6 +136,16 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background'],
 
             hpBar1.update(player1.hp);
             hpBar2.update(player2.hp);
+
+            if(player2.attacking && player1.attacking && Math.abs(player1.waveX - player2.waveX) < 10){
+                if(player1.power > player2.power){
+                    player1.power -= player2.power;
+                    player2.power = 0;
+                } else{
+                    player2.power -= player1.power;
+                    player1.power = 0;
+                }
+            }
         };
 
         var getData = function (  ) {
@@ -156,11 +159,9 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background'],
                 timeout: 60000,
                 success: function ( data ) {
                     if(data === 'no-update'){
-                        window.setTimeout(getData, 1000);
+                        window.setTimeout(getData, 1500);
                     } else{
                         anoPlayer.power = data;
-                        console.log(anoPlayer);
-                        console.log(curPlayer);
                         defer.resolve();
                     }
                 },

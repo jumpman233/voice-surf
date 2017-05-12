@@ -5,6 +5,7 @@
 define(['rect'], function ( Rect ) {
     function PowerBar(  ) {
         this.power = 0;
+        this.dir = 1;
 
         this.powerRect = new Rect;
         this.powerRect.border = false;
@@ -27,23 +28,35 @@ define(['rect'], function ( Rect ) {
             this.bkRect.height = 200;
             this.bkRect.width = 30;
         },
-        update: function ( power ) {
-            this.power = power;
+        update: function ( ) {
+            this.power += this.getSpeed();
+            if(this.power >= 100){
+                this.power = 100;
+                this.dir = -1;
+            } else if(this.power <= 0){
+                this.power = 0;
+                this.dir = 1;
+            } else {
+            }
+        },
+        getDirection: function (  ) {
+            return this.dir;
         },
         draw: function ( ctx ) {
+            ctx.save();
             if(!this.gradiant){
-                this.gradiant = ctx.createLinearGradient(0, this.powerRect.height, 0, 0);
-                this.gradiant.addColorStop(0, 'rgb(255, 0, 0)');
-                this.gradiant.addColorStop(0.3, 'rgb(0, 255, 0)');
-                this.gradiant.addColorStop(1, 'rgb(0, 0, 255)');
+                this.gradiant = ctx.createLinearGradient(0, this.bkRect.height, 0, 0);
+                this.gradiant.addColorStop(0, 'rgb(255, 255, 255)');
+                this.gradiant.addColorStop(1, '#5A7C97');
                 this.bkRect.fillStyle = this.gradiant;
             }
             this.powerRect.height = this.bkRect.height * (100 - this.power) / 100;
             this.bkRect.draw(ctx);
             this.powerRect.draw(ctx);
+            ctx.restore();
         },
         getSpeed: function (  ) {
-            return this.power / 10 < 1 ? 1 : this.power / 10;
+            return Math.log(this.power + Math.E) < 1 ? 1 : Math.log(this.power + Math.E) * this.dir / 1.5;
         }
     };
 

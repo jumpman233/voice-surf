@@ -20,6 +20,7 @@ define(['jquery'], function ( $ ) {
         this.waveX = 0;
         this.waveY = 0;
         this.power = 0;
+        this.skateHeight = 15;
 
         this.targetX = null;
         this.dx = 0;
@@ -37,19 +38,23 @@ define(['jquery'], function ( $ ) {
     Player.prototype.draw = function ( ctx ) {
         ctx.save();
         ctx.drawImage(this.curImg, this.x, this.y, this.width, this.height);
-        ctx.drawImage(this.skateImg, this.x, this.y + this.height - 5, this.width, 15);
+        ctx.drawImage(this.skateImg, this.x, this.y + this.height - 5, this.width, this.skateHeight);
         ctx.restore();
 
+        var wHeight =  70 * this.power / 100 + 30;
         if(this.attackInit){
-            ctx.drawImage(this.waveImg, this.waveX, this.waveY, 100, 100);
+            ctx.drawImage(this.waveImg, this.waveX, this.waveY, 100, wHeight);
             this.waveY -= 3;
 
-            if(this.waveY <= this.y){
+            if(this.waveY <= this.y + this.height - wHeight + this.skateHeight){
                 this.attacking = true;
                 this.attackInit = false
             }
         } else if(this.attacking){
-            ctx.drawImage(this.waveImg, this.waveX, this.waveY, 100, 100);
+            this.waveY = this.y + this.height - wHeight + this.skateHeight;
+            if(this.power > 0){
+                ctx.drawImage(this.waveImg, this.waveX, this.waveY, 100, wHeight);
+            }
             this.waveX += this.dx;
             if((this.waveX >= this.targetX && this.dx >= 0) ||
                 (this.waveX <= this.targetX && this.dx <= 0)){

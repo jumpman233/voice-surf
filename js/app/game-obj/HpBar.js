@@ -21,8 +21,8 @@ define(['rect'], function ( Rect ) {
 
             this.hpRect.x = x + 1;
             this.hpRect.y = y + 1;
-            this.hpRect.fillColor = 'red';
-            this.hpRect.strokeColor = 'red';
+            this.hpRect.fillColor = '#AF3F31';
+            this.hpRect.strokeColor = '#AF3F31';
             this.hpRect.width = this.bkRect.width - 2;
             this.hpRect.height = this.bkRect.height - 2;
         },
