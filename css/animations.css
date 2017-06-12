@@ -86,14 +86,22 @@
 
 .fade-in{
     animation: fade-in 1s;
-    animation-delay: 1s;
     transition: visibility 1s;
-    transition-delay: 1s;
     visibility: visible;
 }
 
 .hidden{
     visibility: hidden;
+}
+
+.ani-delay-1s{
+    animation-delay: 1s;
+    transition-delay: 1s;
+}
+
+.ani-delay-2s{
+    animation-delay: 2s;
+    transition-delay: 2s;
 }
 
 @keyframes fade-in {

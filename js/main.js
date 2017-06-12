@@ -32,14 +32,52 @@ function change(  ) {
 require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text', 'pitchdetect', 'Menu', 'Input'],
     function ($, PowerBar, HpBar, Player, background, Text, voice, Menu, Input) {
         $(function (  ) {
+            Input.pause();
             var matchButton = $('#match'),
                 mainMenu = $('#main-menu'),
-                inputWrapper = $('#input-wrapper');
+                inputWrapper = $('#input-wrapper'),
+                submitButton = $('#submit'),
+                test = $('#test');
             matchButton.on('click', function (  ) {
+                mainMenu.removeClass('fade-in ani-delay-1s');
                 mainMenu.addClass('fade-out');
-                inputWrapper.removeClass('hidden');
-                inputWrapper.addClass('fade-in');
+                inputWrapper.removeClass('hidden fade-out');
+                inputWrapper.addClass('fade-in ani-delay-1s');
+                Input.cont();
             });
+            test.on('click', function (  ) {
+                if(!mainMenu.hasClass('fade-out')){
+                    mainMenu.removeClass('fade-in ani-delay-1s');
+                    mainMenu.addClass('fade-out');
+                    inputWrapper.removeClass('hidden fade-out');
+                    inputWrapper.addClass('fade-in ani-delay-1s');
+                    Input.cont();
+                } else{
+                    inputWrapper.removeClass('fade-in ani-delay-1s');
+                    inputWrapper.addClass('fade-out');
+                    mainMenu.removeClass('fade-out');
+                    mainMenu.addClass('fade-in ani-delay-1s');
+                    Input.pause();
+                }
+            });
+            submitButton.on('click', function (  ) {
+                Menu.mainMenu.init({
+                    normal: './img/dog-normal.png',
+                    wave: './img/wave.png',
+                    skate: './img/skate-board1.png',
+                    defeat: './img/dog-defeat.png',
+                    hurt: './img/dog-hurt.png'
+                },{
+                    normal: './img/cat-normal.png',
+                    wave: './img/wave2.png',
+                    skate: './img/skate-board1.png',
+                    defeat: './img/cat-defeat.png',
+                    hurt: './img/cat-hurt.png'
+                })
+                .then(function (  ) {
+                    Menu.mainMenu.draw();
+                });
+            })
         });
         var ctx = document.getElementById('canvas').getContext('2d');
         var powerBar = new PowerBar();
@@ -55,22 +93,7 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text', 'pitchde
             nameFontSize = 20,
             powerBarHeight = height / 5;
 
-        Menu.mainMenu.init({
-            normal: './img/dog-normal.png',
-            wave: './img/wave.png',
-            skate: './img/skate-board1.png',
-            defeat: './img/dog-defeat.png',
-            hurt: './img/dog-hurt.png'
-        },{
-            normal: './img/cat-normal.png',
-            wave: './img/wave2.png',
-            skate: './img/skate-board1.png',
-            defeat: './img/cat-defeat.png',
-            hurt: './img/cat-hurt.png'
-        })
-        .then(function (  ) {
-            // Menu.mainMenu.draw();
-        });
+
         players.push(player1);
         players.push(player2);
 
