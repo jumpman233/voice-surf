@@ -274,30 +274,30 @@ define(['jquery'],function () {
     function updatePitch( time ) {
         var cycles = new Array;
         analyser.getFloatTimeDomainData( buf );
-        console.log(buf);
+        // console.log(buf);
         var ac = autoCorrelate( buf, audioContext.sampleRate );
         // TODO: Paint confidence meter on canvasElem here.
 
         if (ac == -1) {
-            detectorElem.className = "vague";
-            pitchElem.innerText = "--";
-            noteElem.innerText = "-";
-            detuneElem.className = "";
-            detuneAmount.innerText = "--";
+            // detectorElem.className = "vague";
+            // pitchElem.innerText = "--";
+            // noteElem.innerText = "-";
+            // detuneElem.className = "";
+            // detuneAmount.innerText = "--";
         } else {
-            detectorElem.className = "confident";
+            // detectorElem.className = "confident";
             pitch = ac;
-            pitchElem.innerText = Math.round( pitch ) ;
+            // pitchElem.innerText = Math.round( pitch ) ;
             var note =  noteFromPitch( pitch );
             var detune = centsOffFromPitch( pitch, note );
             if (detune == 0 ) {
-                detuneElem.className = "";
+                // detuneElem.className = "";
             } else {
-                if (detune < 0)
-                    detuneElem.className = "flat";
-                else
-                    detuneElem.className = "sharp";
-                detuneAmount.innerHTML = Math.abs( detune );
+                // if (detune < 0)
+                    // detuneElem.className = "flat";
+                // else
+                    // detuneElem.className = "sharp";
+                // detuneAmount.innerHTML = Math.abs( detune );
                 // console.log(pitch);
 
             }

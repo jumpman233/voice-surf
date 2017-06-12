@@ -29,6 +29,8 @@ define(['PowerBar',
         this.name = "";
         this.nameFontSize = 20;
         this.powerBarHeight = this.height / 5;
+        this.curPlayer = null;
+        this.anoPlayer = null;
 
         this.hpBar1.init(10, 30, this.width / 5 * 2, 30);
         this.hpBar2.init(this.width / 5 * 3 - 10, 30, this.width / 5 * 2, 30);
@@ -43,37 +45,55 @@ define(['PowerBar',
         this.powerBar.power = 0;
     }
     FightMenu.prototype.constructor = FightMenu;
-    FightMenu.prototype.init = function ( p1Src, p2Src ) {
+    FightMenu.prototype.init = function ( ifP1, p1Name, p2Name ) {
         var fm = this,
             defer = $.Deferred();
-        if(p1Src && p2Src){
             fm.player1.init({
-                src:p1Src,
+                src:{
+                    normal: './img/dog-normal.png' ,
+                    wave: './img/wave.png' ,
+                    skate: './img/skate-board1.png' ,
+                    defeat: './img/dog-defeat.png' ,
+                    hurt: './img/dog-hurt.png'
+                },
                 width: fm.playerWidth,
                 height: fm.playerHeight,
                 x: fm.width / 4 - fm.playerWidth,
                 y: fm.playerY - fm.playerHeight
             })
-                .then(function (  ) {
-                    return fm.player2.init({
-                        src: p2Src,
-                        width: fm.playerWidth,
-                        height: fm.playerHeight,
-                        x: fm.width / 4 * 3 - fm.playerWidth,
-                        y: fm.playerY - fm.playerHeight
-                    });
-                })
-                .then(function (  ) {
-                    defer.resolve();
-                })
-        } else{
-            console.log('fightMenu src wrong');
-            defer.resolve();
-        }
+            .then(function (  ) {
+                return fm.player2.init({
+                    src: {
+                        normal: './img/cat-normal.png' ,
+                        wave: './img/wave2.png' ,
+                        skate: './img/skate-board1.png' ,
+                        defeat: './img/cat-defeat.png' ,
+                        hurt: './img/cat-hurt.png'
+                    } ,
+                    width: fm.playerWidth,
+                    height: fm.playerHeight,
+                    x: fm.width / 4 * 3 - fm.playerWidth,
+                    y: fm.playerY - fm.playerHeight
+                });
+            })
+            .then(function (  ) {
+                if(ifP1){
+                    fm.text1.text = p1Name;
+                    fm.text2.text = p2Name;
+                    fm.powerBar.init( 10 , fm.powerBarHeight );
+                } else{
+                    fm.text1.text = p2Name;
+                    fm.text2.text = p1Name;
+                    fm.powerBar.init( width - 10 - fm.powerBar.bkRect.width , fm.powerBarHeight );
+                }
+                fm.text1.x = 10;
+                fm.text2.x = width - fm.nameFontSize * fm.text2.text.length - 10;
+                defer.resolve();
+            });
         return defer;
     };
     FightMenu.prototype.draw = function (  ) {
-        ctx.clearRect(0, 0, 1000, 1000);
+        ctx.clearRect(0, 0, this.width, this.height);
 
         this.player1.draw(ctx);
         this.player2.draw(ctx);
@@ -98,13 +118,18 @@ define(['PowerBar',
             }
         }
     };
+    FightMenu.prototype.start = function (  ) {
+        var fm = this;
+        window.setInterval(function (  ) {
+           fm.draw();
+        }, 30);
+    };
 
     function MainMenu(  ) {
         this.name = 'Voice Spirit';
     }
 
    return {
-        mainMenu: new FightMenu(),
-       l: 2
+        fightMenu: new FightMenu()
    };
 });

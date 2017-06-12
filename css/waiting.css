@@ -1,0 +1,105 @@
+#msBackground {
+    font-family: 'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 10000
+}
+
+#msSmallText {
+    font-family: 'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+    font-size: 30px;
+    position: fixed;
+    left: 100px;
+    color: #EC135A;
+    white-space: nowrap;
+    opacity: 0;
+    z-index: 10003;
+    user-select: none;
+    cursor: default;
+}
+
+#msBigText {
+    font-family: 'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+    font-size: 60px;
+    position: fixed;
+    left: 100px;
+    color: #EC135A;
+    white-space: nowrap;
+    opacity: 0;
+    z-index: 10002;
+    user-select: none;
+    cursor: default;
+}
+
+.msImgx1 {
+    position: fixed;
+    top: -75px;
+    opacity: .5;
+    width: 75px;
+    z-index: 10001
+}
+
+.msImgx2 {
+    position: fixed;
+    top: -100px;
+    opacity: .5;
+    width: 100px;
+    z-index: 10001
+}
+
+.msImgx3 {
+    position: fixed;
+    top: -125px;
+    opacity: .5;
+    width: 125px;
+    z-index: 10001
+}
+
+.msImgx4 {
+    position: fixed;
+    top: -150px;
+    opacity: .5;
+    width: 150px;
+    z-index: 10001
+}
+
+#msHint {
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+    font-size: 15px;
+    color: white;
+    white-space: nowrap;
+    display: none;
+    position: fixed;
+    z-index: 100001
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+    margin: 0
+}
+
+.content {
+    position: relative;
+    top: 150px;
+    display: block
+}
+
+.content a {
+    display: block;
+    margin-top: 10px
+}
+
+h2 {
+    font-size: 30px;
+    font-weight: normal;
+    color: #662d91
+}
+
+#Close {
+    position: fixed;
+    z-index: 1999999;
+    color: white
+}

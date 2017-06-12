@@ -434,7 +434,7 @@ define(['jquery'], function ( $ ) {
             // document.body.appendChild(canvas);
 
             // correct canvas size on window resize
-            window.addEventListener('resize', fitCanvas);
+            // window.addEventListener('resize', fitCanvas);
 
             // go
             go();

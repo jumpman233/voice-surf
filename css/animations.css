@@ -1,3 +1,49 @@
+.is-animate.style1 > div { animation-name: style1; }
+
+.is-animate > div {
+    animation-duration: 2s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+}
+
+.is-animate > div:nth-child(1) { animation-delay: 0.0s }
+.is-animate > div:nth-child(2) { animation-delay: 0.2s }
+.is-animate > div:nth-child(3) { animation-delay: 0.4s }
+.is-animate > div:nth-child(4) { animation-delay: 0.6s }
+.is-animate > div:nth-child(5) { animation-delay: 0.8s }
+.is-animate > div:nth-child(6) { animation-delay: 1s }
+.is-animate > div:nth-child(7) { animation-delay: 1.2s }
+.is-animate > div:nth-child(8) { animation-delay: 1.4s }
+.is-animate > div:nth-child(9) { animation-delay: 1.6s }
+.is-animate > div:nth-child(10) { animation-delay: 1.8s }
+.is-animate > div:nth-child(11) { animation-delay: 2.0s }
+
+.is-animate div{
+    display: inline-block;
+    background-color: #EC135A;
+    color: #fff;
+    padding: 10px 18px;
+    font-size: 25px;
+    margin: 1px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 9px -3px #000;
+}
+.is-animate{
+    text-align: center;
+}
+.in-canvas{
+    position: absolute;
+    width: 800px;
+    height: 500px;
+    left: 50%;
+    margin-left: -400px;
+    top: 20vh;
+}
+#start-game{
+    margin-top: 5vh;
+    text-align: center;
+}
+
 @keyframes style1 {
   from, 20%, 53%, 80%, to {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);

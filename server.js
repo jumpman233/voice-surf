@@ -11,17 +11,20 @@ var http = require('http'),
     os = require('os');
 var port = 3000;
 var list = [];
+var id = 0;
 
 function Pair(  ) {
     this.p1 = {
         name: '',
         power: -1,
-        init: false
+        init: false,
+        id: -1
     };
     this.p2 = {
         name: '',
         power: -1,
-        init: false
+        init: false,
+        id: -1
     };
     this.init = false;
 }
@@ -38,6 +41,7 @@ http.createServer(function ( req, res ) {
             var pair = new Pair();
             pair.p1.init = true;
             pair.p1.name = name;
+            pair.p1.id = id++;
             list.push(pair);
         } else{
             var flag = false;
@@ -46,6 +50,7 @@ http.createServer(function ( req, res ) {
                     list[i].p2.init = true;
                     list[i].init = true;
                     list[i].p2.name = name;
+                    list[i].p2.id = id++;
                     p1 = false;
                     flag = true;
                     index = i;
@@ -55,13 +60,15 @@ http.createServer(function ( req, res ) {
                 var pair = new Pair();
                 pair.p1.init = true;
                 pair.p1.name = name;
+                pair.p1.id = id++;
                 list.push(pair);
                 index = list.length - 1;
             }
         }
         res.end(JSON.stringify({
             pairNum: index,
-            player: p1 ? 'p1' : 'p2'
+            player: p1 ? 'p1' : 'p2',
+            id: id - 1
         }));
     }
 
