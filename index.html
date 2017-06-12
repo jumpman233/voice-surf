@@ -3,8 +3,94 @@
 <head>
 	<title></title>
     <script type="text/javascript" src="js/lib/require.js" data-main="js/main"></script>
+	<style>
+		#canvas{
+			background-color: #eee;
+			border:1px solid #000;
+			height: 400px;
+		}
+		#wrapper{
+			margin-top: 10vh;
+			text-align: center;
+		}
+	</style>
+
+	<style type='text/css'>
+
+		.is-animate.style1 > div { animation-name: style1; }
+
+		.is-animate > div {
+			animation-duration: 2s;
+			animation-fill-mode: both;
+			animation-iteration-count: infinite;
+		}
+
+		.is-animate > div:nth-child(1) { animation-delay: 0.0s }
+		.is-animate > div:nth-child(2) { animation-delay: 0.2s }
+		.is-animate > div:nth-child(3) { animation-delay: 0.4s }
+		.is-animate > div:nth-child(4) { animation-delay: 0.6s }
+		.is-animate > div:nth-child(5) { animation-delay: 0.8s }
+		.is-animate > div:nth-child(6) { animation-delay: 1s }
+		.is-animate > div:nth-child(7) { animation-delay: 1.2s }
+		.is-animate > div:nth-child(8) { animation-delay: 1.4s }
+		.is-animate > div:nth-child(9) { animation-delay: 1.6s }
+		.is-animate > div:nth-child(10) { animation-delay: 1.8s }
+		.is-animate > div:nth-child(11) { animation-delay: 2.0s }
+
+		.is-animate div{
+			display: inline-block;
+			background-color: #EC135A;
+			color: #fff;
+			padding: 10px 18px;
+			font-size: 25px;
+			margin: 1px;
+			border-radius: 4px;
+			box-shadow: 1px 1px 9px -3px #000;
+		}
+		.is-animate{
+			text-align: center;
+		}
+		.in-canvas{
+			position: absolute;
+			width: 800px;
+			left: 50%;
+			margin-left: -400px;
+			top: 20vh;
+		}
+		#start-game{
+			margin-top: 5vh;
+			text-align: center;
+		}
+	</style>
+	<link rel='stylesheet' href='css/animations.css'>
+	<link rel='stylesheet' href='css/icon.css'>
 </head>
 <body>
-	<canvas id="canvas" width="800" height="400" style="background-color: #eee; border:1px solid #000;"></canvas>
+<div id="main-menu" class="in-canvas">
+	<div class='is-animate style1 title'>
+		<div>V</div>
+		<div>o</div>
+		<div>i</div>
+		<div>c</div>
+		<div style="margin-right: 30px">e</div>
+		<div>S</div>
+		<div>p</div>
+		<div>i</div>
+		<div>r</div>
+		<div>i</div>
+		<div>t</div>
+	</div>
+	<div id="start-game" class="hi-icon-wrap hi-icon-effect-8">
+		<a class="hi-icon hi-icon-contract">Contact</a>
+	</div>
+</div>
+	<div id="wrapper">
+		<canvas id="canvas" width="1600" height="800"></canvas>
+		<script>
+			var canvas = document.getElementById('canvas');
+			console.log(canvas.width);
+		</script>
+	</div>
+
 </body>
 </html>

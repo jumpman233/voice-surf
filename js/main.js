@@ -14,7 +14,8 @@ require.config({
         'Player': 'app/game-obj/Player',
         'background': 'app/game-obj/background',
         'Text': 'app/base-obj/text',
-        'pitchdetect': 'app/pitchdetect'
+        'pitchdetect': 'app/pitchdetect',
+        'Menu': 'app/menu'
     }
 });
 var curPlayer, anoPlayer, players = [], pairNum, p1;
@@ -27,102 +28,99 @@ function change(  ) {
     anoPlayer = a;
 }
 
-require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text', 'pitchdetect'],
-    function ($, PowerBar, HpBar, Player, background, Text, voice) {
+    require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text', 'pitchdetect', 'Menu'],
+    function ($, PowerBar, HpBar, Player, background, Text, voice, Menu) {
         var ctx = document.getElementById('canvas').getContext('2d');
         var powerBar = new PowerBar();
-        var hpBar1 = new HpBar(),
-            hpBar2 = new HpBar(),
-            player1 = new Player('p1'),
+        var player1 = new Player('p1'),
             player2 = new Player('p2'),
             text1 = new Text(),
             text2 = new Text(),
             width = ctx.canvas.width,
             height = ctx.canvas.height,
-            playerWidth = width / 10,
-            playerHeight = width / 10,
-            playerY = height / 4 * 3 - 5,
             ifCanStart = false,
             playing = false,
             name = "",
             nameFontSize = 20,
             powerBarHeight = height / 5;
 
+        console.log(Menu);
+        Menu.mainMenu.init({
+            normal: './img/dog-normal.png',
+            wave: './img/wave.png',
+            skate: './img/skate-board1.png',
+            defeat: './img/dog-defeat.png',
+            hurt: './img/dog-hurt.png'
+        },{
+            normal: './img/cat-normal.png',
+            wave: './img/wave2.png',
+            skate: './img/skate-board1.png',
+            defeat: './img/cat-defeat.png',
+            hurt: './img/cat-hurt.png'
+        })
+        .then(function (  ) {
+            // Menu.mainMenu.draw();
+        });
         players.push(player1);
         players.push(player2);
 
-        hpBar1.init(10, 30, width / 5 * 2, 30);
-        hpBar2.init(width / 5 * 3 - 10, 30, width / 5 * 2, 30);
-        powerBar.init(-20, powerBarHeight);
-        background.init(width, height);
-        text1.y = nameFontSize;
-        text1.textAlign = 'left';
-        text1.fontSize = nameFontSize;
-        text2.y = nameFontSize;
-        text2.textAlign = 'left';
-        text2.fontSize = nameFontSize;
-        powerBar.power = 0;
 
-        getName()
-            .then(function (  ) {
-                return $.ajax(baseUrl + '/getPlayer', {
-                    data: {
-                        name: name
-                    },
-                    success: function ( data ) {
-                        data = JSON.parse(data);
-                        pairNum = data.pairNum;
-                        if(data.player === 'p1'){
-                            curPlayer = player1;
-                            anoPlayer = player2;
-                            text1.text = name;
-                            text1.x = 10;
-                            powerBar.init(10, powerBarHeight);
-                            p1 = true;
-                        } else{
-                            curPlayer = player2;
-                            anoPlayer = player1;
-                            text2.text = name;
-                            text2.x = width - nameFontSize * name.length - 10;
-                            powerBar.init(width - 10 - powerBar.bkRect.width, powerBarHeight);
-                            p1 = false;
-                        }
-                        curPlayer.name = name;
-                    }
-                })
-            })
-            .then(function (  ) {
-                canStart();
-                return player1.init({
-                    src:{
-                        normal: './img/dog-normal.png',
-                        wave: './img/wave.png',
-                        skate: './img/skate-board1.png',
-                        defeat: './img/dog-defeat.png',
-                        hurt: './img/dog-hurt.png'
-                    },
-                    width: playerWidth,
-                    height: playerHeight,
-                    x: width / 4 - playerWidth,
-                    y: playerY - playerHeight
-                })
-            }).then(function (  ) {
-            return player2.init({
-                src:{
-                    normal: './img/cat-normal.png',
-                    wave: './img/wave2.png',
-                    skate: './img/skate-board1.png',
-                    defeat: './img/cat-defeat.png',
-                    hurt: './img/cat-hurt.png'
-                },
-                width: playerWidth,
-                height: playerHeight,
-                x: width / 4 * 3 - playerWidth,
-                y: playerY - playerHeight
-            });
-        }).then(function (  ) {
-            setInterval(draw, 30);
-        });
+        // getName()
+        //     .then(function (  ) {
+        //         return $.ajax(baseUrl + '/getPlayer', {
+        //             data: {
+        //                 name: name
+        //             },
+        //             success: function ( data ) {
+        //                 data = JSON.parse(data);
+        //                 pairNum = data.pairNum;
+        //                 if(data.player === 'p1'){
+        //                     curPlayer = player1;
+        //                     anoPlayer = player2;
+        //                     text1.text = name;
+        //                     text1.x = 10;
+        //                     powerBar.init(10, powerBarHeight);
+        //                     p1 = true;
+        //                 } else{
+        //                     curPlayer = player2;
+        //                     anoPlayer = player1;
+        //                     text2.text = name;
+        //                     text2.x = width - nameFontSize * name.length - 10;
+        //                     powerBar.init(width - 10 - powerBar.bkRect.width, powerBarHeight);
+        //                     p1 = false;
+        //                 }
+        //                 curPlayer.name = name;
+        //             }
+        //         })
+        //     })
+        //     .then(function (  ) {
+        //         canStart();
+        //         return player1.init({
+        //             src:{
+        //                 normal: './img/dog-normal.png',
+        //                 wave: './img/wave.png',
+        //                 skate: './img/skate-board1.png',
+        //                 defeat: './img/dog-defeat.png',
+        //                 hurt: './img/dog-hurt.png'
+        //             },
+        //             width: playerWidth,
+        //             height: playerHeight,
+        //             x: width / 4 - playerWidth,
+        //             y: playerY - playerHeight
+        //         })
+        //     }).then(function (  ) {
+        //     return player2.init({
+        //         src:{
+        //             normal: './img/cat-normal.png',
+        //             wave: './img/wave2.png',
+        //             skate: './img/skate-board1.png',
+        //             defeat: './img/cat-defeat.png',
+        //             hurt: './img/cat-hurt.png'
+        //         }
+        //     });
+        // }).then(function (  ) {
+        //     setInterval(draw, 30);
+        // });
 
         var shouting = false,
             canShout = true,
@@ -151,7 +149,6 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text', 'pitchde
         function volumnSet(  ) {
             window.setInterval(function (  ) {
                 var volumn = voice.getVolume();
-                console.log(canShout);
                 if(volumn > minVolumn && canShout){
                     console.log("??");
                     powerBar.update();
@@ -220,39 +217,39 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text', 'pitchde
             });
         });
 
-        var draw = function (  ) {
-            ctx.clearRect(0, 0, 1000, 1000);
-
-            player1.draw(ctx);
-            player2.draw(ctx);
-
-            background.draw(ctx);
-
-            hpBar1.draw(ctx);
-            hpBar2.draw(ctx);
-
-            text1.draw(ctx);
-            text2.draw(ctx);
-
-            powerBar.draw(ctx);
-
-            if(!ifCanStart){
-                waiting.draw(ctx);
-            }
-
-            hpBar1.update(player1.hp);
-            hpBar2.update(player2.hp);
-
-            if(player2.attacking && player1.attacking && Math.abs(player1.waveX - player2.waveX) < 10){
-                if(player1.power > player2.power){
-                    player1.power -= player2.power;
-                    player2.power = 0;
-                } else{
-                    player2.power -= player1.power;
-                    player1.power = 0;
-                }
-            }
-        };
+        // var draw = function (  ) {
+        //     ctx.clearRect(0, 0, 1000, 1000);
+        //
+        //     player1.draw(ctx);
+        //     player2.draw(ctx);
+        //
+        //     background.draw(ctx);
+        //
+        //     hpBar1.draw(ctx);
+        //     hpBar2.draw(ctx);
+        //
+        //     text1.draw(ctx);
+        //     text2.draw(ctx);
+        //
+        //     powerBar.draw(ctx);
+        //
+        //     if(!ifCanStart){
+        //         waiting.draw(ctx);
+        //     }
+        //
+        //     hpBar1.update(player1.hp);
+        //     hpBar2.update(player2.hp);
+        //
+        //     if(player2.attacking && player1.attacking && Math.abs(player1.waveX - player2.waveX) < 10){
+        //         if(player1.power > player2.power){
+        //             player1.power -= player2.power;
+        //             player2.power = 0;
+        //         } else{
+        //             player2.power -= player1.power;
+        //             player1.power = 0;
+        //         }
+        //     }
+        // };
 
         function getName(  ) {
             var player = JSON.parse(localStorage.getItem('player')),
