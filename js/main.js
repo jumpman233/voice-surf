@@ -13,12 +13,13 @@ require.config({
         'PowerBar': 'app/game-obj/PowerBar',
         'Player': 'app/game-obj/Player',
         'background': 'app/game-obj/background',
-        'Text': 'app/base-obj/text'
+        'Text': 'app/base-obj/text',
+        'pitchdetect': 'app/pitchdetect'
     }
 });
 var curPlayer, anoPlayer, players = [], pairNum, p1;
 
-var baseUrl = 'http://192.168.191.1:3000';
+var baseUrl = 'http://127.0.0.1:3000';
 
 function change(  ) {
     var a = curPlayer;
@@ -26,8 +27,8 @@ function change(  ) {
     anoPlayer = a;
 }
 
-require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text'],
-    function ($, PowerBar, HpBar, Player, background, Text) {
+require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text', 'pitchdetect'],
+    function ($, PowerBar, HpBar, Player, background, Text, voice) {
         var ctx = document.getElementById('canvas').getContext('2d');
         var powerBar = new PowerBar();
         var hpBar1 = new HpBar(),
@@ -123,14 +124,81 @@ require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text'],
             setInterval(draw, 30);
         });
 
-        var a;
+        var shouting = false,
+            canShout = true,
+            initReduce = 100,
+            reduce = 100,
+            frame = 50,
+            frameCount = 0,
+            minVolumn,
+            totVolumn = 0,
+            inter;
+        var a = window.setInterval(function (  ) {
+            frame--;
+            if(frame <= 0){
+                window.clearInterval(a);
+                minVolumn = totVolumn / frameCount + 0.1;
+                console.log(minVolumn);
+                volumnSet();
+            } else{
+                var v = voice.getVolume();
+                if(v !== undefined){
+                    totVolumn += voice.getVolume();
+                    frameCount++;
+                }
+            }
+        }, 20);
+        function volumnSet(  ) {
+            window.setInterval(function (  ) {
+                var volumn = voice.getVolume();
+                console.log(canShout);
+                if(volumn > minVolumn && canShout){
+                    console.log("??");
+                    powerBar.update();
+                    if(!shouting){
+                        shouting = true;
+                    }
+                } else {
+                    if(shouting){
+                        if(reduce > 0){
+                            reduce--;
+                        } else{
+                            canShout = false;
+                            shouting = false;
+                            curPlayer.power = powerBar.power;
+                            $.ajax(baseUrl+'/update',{
+                                data: {
+                                    power: powerBar.power,
+                                    p1: p1 ? 1 : 0,
+                                    pairNum: pairNum
+                                },
+                                success: function ( data ) {
+                                    console.log(data);
+                                },
+                                error: function (  ) {
+                                    console.log('ajax error!');
+                                }
+                            });
+                            getData().then(function (  ) {
+                                canShout = true;
+                                reduce = initReduce;
+                                powerBar.power = 0;
+                                curPlayer.attack(anoPlayer.x, anoPlayer);
+                                anoPlayer.attack(curPlayer.x, curPlayer);
+                            });
+                        }
+                    }
+                }
+            }, 20);
+        }
+
         document.addEventListener('mousedown', function (  ) {
-            a = window.setInterval(function (  ) {
+            inter = window.setInterval(function (  ) {
                 powerBar.update();
             }, 20);
         });
         document.addEventListener('mouseup', function (  ) {
-            window.clearInterval(a);
+            window.clearInterval(inter);
             curPlayer.power = powerBar.power;
             $.ajax(baseUrl+'/update',{
                 data: {
