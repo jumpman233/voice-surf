@@ -1,22 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title></title>
     <script type="text/javascript" src="js/lib/require.js" data-main="js/main"></script>
-	<style>
-		#canvas{
-			background-color: #eee;
-			border:1px solid #000;
-			height: 400px;
-		}
-		#wrapper{
-			margin-top: 10vh;
-			text-align: center;
-		}
-	</style>
-
 	<style type='text/css'>
-
 		.is-animate.style1 > div { animation-name: style1; }
 
 		.is-animate > div {
@@ -64,6 +52,7 @@
 	</style>
 	<link rel='stylesheet' href='css/animations.css'>
 	<link rel='stylesheet' href='css/icon.css'>
+	<link rel="stylesheet" href="css/input.css">
 </head>
 <body>
 <div id="main-menu" class="in-canvas">
@@ -81,16 +70,14 @@
 		<div>t</div>
 	</div>
 	<div id="start-game" class="hi-icon-wrap hi-icon-effect-8">
-		<a class="hi-icon hi-icon-contract">Contact</a>
+		<a class="hi-icon hi-icon-contract" id="match">Contact</a>
 	</div>
 </div>
-	<div id="wrapper">
-		<canvas id="canvas" width="1600" height="800"></canvas>
-		<script>
-			var canvas = document.getElementById('canvas');
-			console.log(canvas.width);
-		</script>
+	<div id="input-wrapper" class="in-canvas hidden">
+		<input id="username" placeholder="请输入昵称"/>
+		<button>OK</button>
 	</div>
 
+<canvas id="canvas" width="1600" height="800"></canvas>
 </body>
 </html>

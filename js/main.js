@@ -15,7 +15,8 @@ require.config({
         'background': 'app/game-obj/background',
         'Text': 'app/base-obj/text',
         'pitchdetect': 'app/pitchdetect',
-        'Menu': 'app/menu'
+        'Menu': 'app/menu',
+        'Input': 'app/input'
     }
 });
 var curPlayer, anoPlayer, players = [], pairNum, p1;
@@ -28,8 +29,18 @@ function change(  ) {
     anoPlayer = a;
 }
 
-    require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text', 'pitchdetect', 'Menu'],
-    function ($, PowerBar, HpBar, Player, background, Text, voice, Menu) {
+require(['jquery', 'PowerBar', 'HpBar', 'Player', 'background', 'Text', 'pitchdetect', 'Menu', 'Input'],
+    function ($, PowerBar, HpBar, Player, background, Text, voice, Menu, Input) {
+        $(function (  ) {
+            var matchButton = $('#match'),
+                mainMenu = $('#main-menu'),
+                inputWrapper = $('#input-wrapper');
+            matchButton.on('click', function (  ) {
+                mainMenu.addClass('fade-out');
+                inputWrapper.removeClass('hidden');
+                inputWrapper.addClass('fade-in');
+            });
+        });
         var ctx = document.getElementById('canvas').getContext('2d');
         var powerBar = new PowerBar();
         var player1 = new Player('p1'),
@@ -44,7 +55,6 @@ function change(  ) {
             nameFontSize = 20,
             powerBarHeight = height / 5;
 
-        console.log(Menu);
         Menu.mainMenu.init({
             normal: './img/dog-normal.png',
             wave: './img/wave.png',

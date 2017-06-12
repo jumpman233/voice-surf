@@ -101,7 +101,6 @@ define(['PowerBar',
 
     function MainMenu(  ) {
         this.name = 'Voice Spirit';
-
     }
 
    return {
