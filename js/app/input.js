@@ -159,8 +159,8 @@ define(['jquery'], function ( $ ) {
                 var s = particle.size;
                 var o = 1 - (particle.life / MAX_LIFE);
 
-                this.paint.circle(p.x, p.y, s, 'rgba(100,100,100,' + o + ')');
-                this.paint.circle(p.x, p.y, s + 2, 'rgba(155,134,120,' + (o * .25) + ')');
+                this.paint.circle(p.x, p.y, s, 'rgba(236,19,90,' + o + ')');
+                this.paint.circle(p.x, p.y, s + 2, 'rgba(200,15,85,' + (o * .25) + ')');
 
             },
             afterPaint: function() {
@@ -533,12 +533,12 @@ define(['jquery'], function ( $ ) {
                     particle.position.x,
                     particle.position.y,
                     particle.size,
-                    'rgba(255,0,0,.75)'
+                    'rgba(230,230,230,.75)'
                 );
                 context.beginPath();
                 context.moveTo(particle.position.x, particle.position.y);
                 context.lineTo(particle.position.x + (particle.velocity.x * 10), particle.position.y + (particle.velocity.y * 10));
-                context.strokeStyle = 'rgba(255,0,0,.1)';
+                context.strokeStyle = 'rgba(230,230,230,.1)';
                 context.stroke();
                 context.closePath();
             };

@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="css/input.css">
 	<link rel="stylesheet" href="css/waiting.css">
 	<link rel="stylesheet" href="css/component.css">
+	<link rel="stylesheet" href="css/default.css">
 </head>
 <body>
 <div id="main-menu" class="in-canvas fade-in">
@@ -30,8 +31,13 @@
 	</div>
 </div>
 <div id="input-wrapper" class="in-canvas hidden">
-	<input id="username" placeholder="请输入昵称"/>
-	<button id="submit">OK</button>
+	<div>
+		<input id="username" placeholder="请输入昵称"/>
+	</div>
+
+	<div style="margin-top:50px;background-color: #EC135A; display: inline-block; z-index: 1; position: relative;">
+		<button id="submit" class="btn btn-1 btn-1e">开始匹配</button>
+	</div>
 </div>
 
 <script src="js/lib/jquery.1.10.2.js"></script>
@@ -49,6 +55,12 @@
 			<button class="md-close" id="start-button">开始游戏</button>
 		</div>
 	</div>
+</div>
+<div id="round-begin" class="hidden">
+	<span>回合开始&nbsp;&nbsp;&nbsp;请大声尖叫</span>
+</div>
+<div id="round-wait">
+
 </div>
 <div class="md-overlay"></div>
 <script src="js/lib/modal/classie.js"></script>

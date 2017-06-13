@@ -7,7 +7,8 @@ define(['PowerBar',
 'Text',
 'Player',
 'jquery',
-'background'], function ( PowerBar, HpBar, Text, Player , $, background) {
+'background',
+'pitchdetect'], function ( PowerBar, HpBar, Text, Player , $, background, voice) {
     'use strict';
     var ctx = document.getElementById('canvas').getContext('2d');
 
@@ -81,15 +82,67 @@ define(['PowerBar',
                     fm.text1.text = p1Name;
                     fm.text2.text = p2Name;
                     fm.powerBar.init( 10 , fm.powerBarHeight );
+                    fm.curPlayer = fm.player1;
+                    fm.anoPlayer = fm.player2;
                 } else{
                     fm.text1.text = p2Name;
                     fm.text2.text = p1Name;
                     fm.powerBar.init( width - 10 - fm.powerBar.bkRect.width , fm.powerBarHeight );
+                    fm.curPlayer = fm.player2;
+                    fm.anoPlayer = fm.player1;
                 }
                 fm.text1.x = 10;
                 fm.text2.x = width - fm.nameFontSize * fm.text2.text.length - 10;
                 defer.resolve();
             });
+        var frame = 50 ,
+            frameCount = 0 ,
+            minVolumn ,
+            totVolumn = 0 ,
+            inter;
+        var a = window.setInterval( function () {
+            frame--;
+            if (frame <= 0) {
+                window.clearInterval( a );
+                fm.minVolumn = totVolumn / frameCount + 0.1;
+                console.log( fm.minVolumn );
+                fm.roundBegin();
+            } else {
+                var v = voice.getVolume();
+                if (v !== undefined) {
+                    totVolumn += voice.getVolume();
+                    frameCount++;
+                }
+            }
+        } , 20 );
+
+        document.addEventListener( 'mousedown' , function () {
+            inter = window.setInterval( function () {
+                fm.powerBar.update();
+            } , 20 );
+        } );
+        document.addEventListener( 'mouseup' , function () {
+            window.clearInterval( inter );
+            fm.curPlayer.power = fm.powerBar.power;
+            $.ajax( baseUrl + '/update' , {
+                data: {
+                    power: fm.powerBar.power ,
+                    p1: ifP1 ? 1 : 0 ,
+                    pairNum: pairNum
+                } ,
+                success: function ( data ) {
+                    console.log( data );
+                } ,
+                error: function () {
+                    console.log( 'ajax error!' );
+                }
+            } );
+            getData(fm.anoPlayer).then( function () {
+                fm.powerBar.power = 0;
+                fm.curPlayer.attack( fm.anoPlayer.x , fm.anoPlayer );
+                fm.anoPlayer.attack( fm.curPlayer.x , fm.curPlayer );
+            } );
+        } );
         return defer;
     };
     FightMenu.prototype.draw = function (  ) {
@@ -108,7 +161,7 @@ define(['PowerBar',
         this.hpBar1.update(this.player1.hp);
         this.hpBar2.update(this.player2.hp);
 
-        if(this.player2.attacking && this.player1.attacking && Math.abs(player1.waveX - player2.waveX) < 10){
+        if(this.player2.attacking && this.player1.attacking && Math.abs(this.player1.waveX - this.player2.waveX) < 10){
             if(this.player1.power > this.player2.power){
                 this.player1.power -= this.player2.power;
                 this.player2.power = 0;
@@ -124,10 +177,93 @@ define(['PowerBar',
            fm.draw();
         }, 30);
     };
+    FightMenu.prototype.roundBegin = function (  ) {
+        var roundBegin = $('#round-begin'),
+            fm = this;
+        roundBegin.removeClass('hidden');
+        roundBegin.addClass('ease-in');
+        window.setTimeout(function (  ) {
+            roundBegin.addClass("hidden");
+            roundBegin.removeClass('ease-in');
+            fm.volumnSet();
+        }, 3000);
+    };
+    FightMenu.prototype.clearVolume = function (  ) {
+        window.clearInterval(this.volumeInter);
+    };
+    FightMenu.prototype.volumnSet = function (  ){
+        var shouting = false ,
+            canShout = true ,
+            initReduce = 100 ,
+            reduce = 100 ;
+        var fm = this;
+        fm.volumeInter = window.setInterval( function () {
+            var volumn = voice.getVolume();
+            if (volumn > fm.minVolumn && canShout) {
+                fm.powerBar.update();
+                console.log("?");
+                if (!shouting) {
+                    shouting = true;
+                }
+            } else {
+                if (shouting) {
+                    if (reduce > 0) {
+                        reduce--;
+                    } else {
+                        canShout = false;
+                        shouting = false;
+                        fm.clearVolume();
+                        fm.curPlayer.power = fm.powerBar.power;
+                        $.ajax( baseUrl + '/update' , {
+                            data: {
+                                power: fm.powerBar.power ,
+                                p1: ifP1 ? 1 : 0 ,
+                                pairNum: pairNum
+                            } ,
+                            success: function ( data ) {
+                                console.log( data );
+                            } ,
+                            error: function () {
+                                console.log( 'ajax error!' );
+                            }
+                        } );
+                        getData(fm.anoPlayer).then( function () {
+                            reduce = initReduce;
+                            fm.powerBar.power = 0;
+                            fm.curPlayer.attack( fm.anoPlayer.x , fm.anoPlayer );
+                            fm.anoPlayer.attack( fm.curPlayer.x , fm.curPlayer );
+                            window.setTimeout(function (  ) {
+                                fm.roundBegin();
+                            }, 5000);
+                        } );
+                    }
+                }
+            }
+        } , 20 );
+    };
+    var getData = function (anoPlayer) {
+        var defer = $.Deferred();
 
-    function MainMenu(  ) {
-        this.name = 'Voice Spirit';
-    }
+        var b = window.setInterval( function () {
+            $.ajax( baseUrl + '/getData' , {
+                data: {
+                    p1: ifP1 ? 0 : 1 ,
+                    pairNum: pairNum
+                } ,
+                timeout: 2000 ,
+                success: function ( data ) {
+                    if (data === 'no-update') {
+
+                    } else {
+                        anoPlayer.power = data;
+                        window.clearInterval( b );
+                        defer.resolve();
+                    }
+                }
+            } );
+        } , 1500 );
+        return defer;
+    };
 
    return {
         fightMenu: new FightMenu()
