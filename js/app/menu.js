@@ -44,11 +44,16 @@ define(['PowerBar',
         this.text2.textAlign = 'left';
         this.text2.fontSize = this.nameFontSize;
         this.powerBar.power = 0;
+        this.gameOver = false;
+        this.loseEle = null;
     }
     FightMenu.prototype.constructor = FightMenu;
     FightMenu.prototype.init = function ( ifP1, p1Name, p2Name ) {
         var fm = this,
             defer = $.Deferred();
+        fm.loseEle = $("#lose");
+        fm.winEle = $("#win");
+        fm.reloadEle = $(".reload");
             fm.player1.init({
                 src:{
                     normal: './img/dog-normal.png' ,
@@ -146,6 +151,9 @@ define(['PowerBar',
         return defer;
     };
     FightMenu.prototype.draw = function (  ) {
+        if(this.gameOver){
+            return;
+        }
         ctx.clearRect(0, 0, this.width, this.height);
 
         this.player1.draw(ctx);
@@ -170,6 +178,7 @@ define(['PowerBar',
                 this.player1.power = 0;
             }
         }
+
     };
     FightMenu.prototype.start = function (  ) {
         var fm = this;
@@ -198,10 +207,10 @@ define(['PowerBar',
             reduce = 100 ;
         var fm = this;
         fm.volumeInter = window.setInterval( function () {
-            var volumn = voice.getVolume();
+            var volumn = voice.getVolume(),
+                wait = $('#wait-data');
             if (volumn > fm.minVolumn && canShout) {
                 fm.powerBar.update();
-                console.log("?");
                 if (!shouting) {
                     shouting = true;
                 }
@@ -214,6 +223,8 @@ define(['PowerBar',
                         shouting = false;
                         fm.clearVolume();
                         fm.curPlayer.power = fm.powerBar.power;
+                        fm.powerBar.reset();
+                        wait.removeClass('hidden');
                         $.ajax( baseUrl + '/update' , {
                             data: {
                                 power: fm.powerBar.power ,
@@ -229,11 +240,36 @@ define(['PowerBar',
                         } );
                         getData(fm.anoPlayer).then( function () {
                             reduce = initReduce;
+                            if(!wait.hasClass('hidden')){
+                                wait.addClass('hidden');
+                            }
                             fm.powerBar.power = 0;
                             fm.curPlayer.attack( fm.anoPlayer.x , fm.anoPlayer );
                             fm.anoPlayer.attack( fm.curPlayer.x , fm.curPlayer );
                             window.setTimeout(function (  ) {
-                                fm.roundBegin();
+                                if(fm.curPlayer.hp <= 0){
+                                    fm.gameOver = true;
+                                    ctx.save();
+                                    ctx.fillStyle = "rgba(234, 19, 60, 0.4)";
+                                    ctx.fillRect(0, 0, fm.width, fm.height);
+                                    ctx.restore();
+                                    $('.lose').removeClass('hidden fade-out ani-delay-1s');
+                                    $('.reload').removeClass('hidden fade-out');
+                                    $('.reload').addClass('fade-in ani-delay-1s');
+                                    $("#game-lose").letterfx({"fx":"fly-right fly-bottom spin", timing:300});
+                                } else if(fm.anoPlayer.hp <= 0){
+                                    fm.gameOver = true;
+                                    ctx.save();
+                                    ctx.fillStyle = "rgba(234, 19, 60, 0.4)";
+                                    ctx.fillRect(0, 0, fm.width, fm.height);
+                                    ctx.restore();
+                                    $('.win').removeClass('hidden fade-out ani-delay-1s');
+                                    $('.reload').removeClass('hidden fade-out');
+                                    $('.reload').addClass('fade-in ani-delay-1s');
+                                    $("#game-win").letterfx({"fx":"fly-right fly-bottom spin", timing:300});
+                                } else{
+                                    fm.roundBegin();
+                                }
                             }, 5000);
                         } );
                     }

@@ -57,6 +57,9 @@ define(['rect'], function ( Rect ) {
         },
         getSpeed: function (  ) {
             return Math.log(this.power + Math.E) < 1 ? 1 : Math.log(this.power + Math.E) * this.dir / 1.5;
+        },
+        reset: function (  ) {
+            this.power = 0;
         }
     };
 

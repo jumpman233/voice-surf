@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="css/waiting.css">
 	<link rel="stylesheet" href="css/component.css">
 	<link rel="stylesheet" href="css/default.css">
+	<link rel="stylesheet" href="css/jquery-letterfx.css">
 </head>
 <body>
 <div id="main-menu" class="in-canvas fade-in">
@@ -59,13 +60,17 @@
 <div id="round-begin" class="hidden">
 	<span>回合开始&nbsp;&nbsp;&nbsp;请大声尖叫</span>
 </div>
-<div id="round-wait">
-
-</div>
+<div id="wait-data" class="loading hidden"></div>
+<div id="round-wait"></div>
+<div class="game-text win hidden"><p id="game-win">You Win</p></div>
+<div class="game-text lose hidden"><p id="game-lose">You Lose</p></div>
+<div class="reload hidden"></div>
 <div class="md-overlay"></div>
 <script src="js/lib/modal/classie.js"></script>
 <script src="js/lib/modal/modalEffects.js"></script>
 <script src="js/lib/modal/cssParser.js"></script>
+<script src="js/lib/jquery-letterfx.js"></script>
+<script src="js/lib/tuxsudo.min.js"></script>
 <!--<script src="js/lib/modal/css-filters-polyfill.js"></script>-->
 <!--<script>-->
     <!--// this is important for IEs-->

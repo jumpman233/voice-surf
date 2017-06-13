@@ -44,7 +44,10 @@ require( ['jquery' , 'PowerBar' , 'HpBar' , 'Player' , 'background' , 'Text' , '
                 findButton = $('#find-button'),
                 p1Name = '',
                 p2Name = '',
-                p1Id = -1;
+                p1Id = -1,
+                canvas = document.getElementById('canvas'),
+                ctx = canvas.getContext('2d');
+            console.log(ctx);
 
             matchButton.on( 'click' , function () {
                 mainMenu.removeClass( 'fade-in ani-delay-1s' );
@@ -69,14 +72,42 @@ require( ['jquery' , 'PowerBar' , 'HpBar' , 'Player' , 'background' , 'Text' , '
                 //     Input.pause();
                 // }
 
-                var a = $('#round-begin');
-                a.removeClass('hidden');
-                a.addClass('ease-in');
-                window.setTimeout(function (  ) {
-                    a.addClass("hidden");
-                    a.removeClass('ease-in');
-                }, 4000);
+                // var a = $('#round-begin');
+                // a.removeClass('hidden');
+                // a.addClass('ease-in');
+                // window.setTimeout(function (  ) {
+                //     a.addClass("hidden");
+                //     a.removeClass('ease-in');
+                // }, 4000);
+
+                // var wait = $('#wait-data');
+                // if(wait.hasClass('hidden')){
+                //     wait.removeClass('hidden');
+                // } else{
+                //     wait.addClass('hidden');
+                // }
+                if($('.reload').hasClass('hidden') || $('.reload').hasClass('fade-out')){
+                    $('.win').removeClass('hidden fade-out ani-delay-1s');
+                    $('.reload').removeClass('hidden fade-out');
+                    $('.reload').addClass('fade-in ani-delay-1s');
+                    $("#game-win").letterfx({"fx":"fly-right fly-bottom spin", timing:300});
+                } else{
+                    $('.reload').removeClass('fade-in ani-delay-1-6s');
+                    $('.reload').addClass('fade-out');
+                    $('.win').addClass('fade-out ani-delay-1s');
+                    $("#game-win").letterfx({fx:'fly-right fly-bottom spin', backwards:true, letter_end:'stay', timing:300, element_end:true});
+                }
             } );
+
+            $('.reload').click(function (  ) {
+                $('.reload').removeClass('fade-in ani-delay-1-6s');
+                $('.reload').addClass('fade-out');
+                $('.win').addClass('fade-out ani-delay-1s');
+                $("#game-win").letterfx({fx:'fly-right fly-bottom spin', backwards:true, letter_end:'stay', timing:300, element_end:true});
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                mainMenu.removeClass( 'fade-out' );
+                mainMenu.addClass( 'fade-in ani-delay-1s' );
+            });
 
             submitButton.on( 'click' , function () {
                 var value = input[0].value;

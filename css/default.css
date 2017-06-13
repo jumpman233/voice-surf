@@ -102,3 +102,81 @@
         visibility: hidden;
     }
 }
+
+.loading {
+    width:80px;
+    height:80px;
+    position: absolute;
+    left: 50%;
+    margin-left: -40px;
+    top: 40%;
+    background: url("/img/loading.png");
+    background-size: 80px 80px;
+}
+.loading {
+    animation: bganim 1s linear 0s infinite;
+    -moz-animation: bganim 1s linear 0s infinite;
+    -webkit-animation: bganim 1s linear 0s infinite;
+}
+@keyframes bganim {
+    from { transform:rotate(0deg); } to { transform:rotate(360deg); }
+}
+@-moz-keyframes bganim {
+    from { -moz-transform:rotate(0deg); } to { -moz-transform:rotate(360deg); }
+}
+@-webkit-keyframes bganim {
+    from { -webkit-transform:rotate(0deg); } to { -webkit-transform:rotate(360deg); }
+}
+
+.game-text{
+    position: absolute;
+    width: 200px;
+    left: 50%;
+    font-size: 40px;
+    text-align: center;
+    margin-left: -100px;
+    top: 45%;
+    z-index: 30000;
+    color: #EC135A;
+    user-select: none;
+    cursor: default;
+    font-weight: bold;
+}
+
+.reload{
+    background: url("/img/reload.png");
+    background-size: 80px 80px;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    left: 50%;
+    margin-left: -40px;
+    top: 75%;
+    z-index: 30000;
+}
+
+.reload:hover{
+    background: url("/img/reload-hover.png");
+    background-size: 80px 80px;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    left: 50%;
+    margin-left: -40px;
+    cursor: pointer;
+    top: 75%;
+    z-index: 30000;
+    animation: rotate-2 1s linear infinite;
+}
+
+@keyframes rotate-2 {
+    0%{
+        transform: rotate(0deg);
+    }
+    50%{
+        transform: rotate(180deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

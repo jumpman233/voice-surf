@@ -145,6 +145,11 @@
     transition-delay: 1s;
 }
 
+.ani-delay-1-6s{
+    animation-delay: 1.6s;
+    transition-delay: 1.6s;
+}
+
 .ani-delay-2s{
     animation-delay: 2s;
     transition-delay: 2s;
