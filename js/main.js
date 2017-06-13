@@ -103,7 +103,9 @@ require( ['jquery' , 'PowerBar' , 'HpBar' , 'Player' , 'background' , 'Text' , '
                 $('.reload').removeClass('fade-in ani-delay-1-6s');
                 $('.reload').addClass('fade-out');
                 $('.win').addClass('fade-out ani-delay-1s');
+                $('.lose').addClass('fade-out ani-delay-1s');
                 $("#game-win").letterfx({fx:'fly-right fly-bottom spin', backwards:true, letter_end:'stay', timing:300, element_end:true});
+                $("#game-lose").letterfx({fx:'fly-right fly-bottom spin', backwards:true, letter_end:'stay', timing:300, element_end:true});
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 mainMenu.removeClass( 'fade-out' );
                 mainMenu.addClass( 'fade-in ani-delay-1s' );

@@ -121,33 +121,33 @@ define(['PowerBar',
             }
         } , 20 );
 
-        document.addEventListener( 'mousedown' , function () {
-            inter = window.setInterval( function () {
-                fm.powerBar.update();
-            } , 20 );
-        } );
-        document.addEventListener( 'mouseup' , function () {
-            window.clearInterval( inter );
-            fm.curPlayer.power = fm.powerBar.power;
-            $.ajax( baseUrl + '/update' , {
-                data: {
-                    power: fm.powerBar.power ,
-                    p1: ifP1 ? 1 : 0 ,
-                    pairNum: pairNum
-                } ,
-                success: function ( data ) {
-                    console.log( data );
-                } ,
-                error: function () {
-                    console.log( 'ajax error!' );
-                }
-            } );
-            getData(fm.anoPlayer).then( function () {
-                fm.powerBar.power = 0;
-                fm.curPlayer.attack( fm.anoPlayer.x , fm.anoPlayer );
-                fm.anoPlayer.attack( fm.curPlayer.x , fm.curPlayer );
-            } );
-        } );
+        // document.addEventListener( 'mousedown' , function () {
+        //     inter = window.setInterval( function () {
+        //         fm.powerBar.update();
+        //     } , 20 );
+        // } );
+        // document.addEventListener( 'mouseup' , function () {
+        //     window.clearInterval( inter );
+        //     fm.curPlayer.power = fm.powerBar.power;
+        //     $.ajax( baseUrl + '/update' , {
+        //         data: {
+        //             power: fm.powerBar.power ,
+        //             p1: ifP1 ? 1 : 0 ,
+        //             pairNum: pairNum
+        //         } ,
+        //         success: function ( data ) {
+        //             console.log( data );
+        //         } ,
+        //         error: function () {
+        //             console.log( 'ajax error!' );
+        //         }
+        //     } );
+        //     getData(fm.anoPlayer).then( function () {
+        //         fm.powerBar.power = 0;
+        //         fm.curPlayer.attack( fm.anoPlayer.x , fm.anoPlayer );
+        //         fm.anoPlayer.attack( fm.curPlayer.x , fm.curPlayer );
+        //     } );
+        // } );
         return defer;
     };
     FightMenu.prototype.draw = function (  ) {
@@ -223,12 +223,11 @@ define(['PowerBar',
                         shouting = false;
                         fm.clearVolume();
                         fm.curPlayer.power = fm.powerBar.power;
-                        fm.powerBar.reset();
                         wait.removeClass('hidden');
                         $.ajax( baseUrl + '/update' , {
                             data: {
                                 power: fm.powerBar.power ,
-                                p1: ifP1 ? 1 : 0 ,
+                                p1: ifP1==true ? 1 : 0 ,
                                 pairNum: pairNum
                             } ,
                             success: function ( data ) {
@@ -238,6 +237,9 @@ define(['PowerBar',
                                 console.log( 'ajax error!' );
                             }
                         } );
+
+                        fm.powerBar.reset();
+
                         getData(fm.anoPlayer).then( function () {
                             reduce = initReduce;
                             if(!wait.hasClass('hidden')){
