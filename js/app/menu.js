@@ -178,11 +178,21 @@ define(['PowerBar',
                 this.player1.power = 0;
             }
         }
-
+    };
+    FightMenu.prototype.reset = function (  ) {
+        this.powerBar.reset();
+        this.player1.hp = 100;
+        this.player1.dying = false;
+        this.player1.dyingInit = false;
+        this.player2.hp = 100;
+        this.player2.dying = false;
+        this.player2.dyingInit = false;
+        this.gameOver = false;
     };
     FightMenu.prototype.start = function (  ) {
         var fm = this;
-        window.setInterval(function (  ) {
+        fm.reset();
+        fm.gameInter = window.setInterval(function (  ) {
            fm.draw();
         }, 30);
     };
@@ -259,6 +269,7 @@ define(['PowerBar',
                                     $('.reload').removeClass('hidden fade-out');
                                     $('.reload').addClass('fade-in ani-delay-1s');
                                     $("#game-lose").letterfx({"fx":"fly-right fly-bottom spin", timing:300});
+                                    window.clearInterval(fm.gameInter);
                                 } else if(fm.anoPlayer.hp <= 0){
                                     fm.gameOver = true;
                                     ctx.save();
@@ -269,6 +280,7 @@ define(['PowerBar',
                                     $('.reload').removeClass('hidden fade-out');
                                     $('.reload').addClass('fade-in ani-delay-1s');
                                     $("#game-win").letterfx({"fx":"fly-right fly-bottom spin", timing:300});
+                                    window.clearInterval(fm.gameInter);
                                 } else{
                                     fm.roundBegin();
                                 }

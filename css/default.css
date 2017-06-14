@@ -135,7 +135,7 @@
     font-size: 40px;
     text-align: center;
     margin-left: -100px;
-    top: 45%;
+    top: 30%;
     z-index: 30000;
     color: #EC135A;
     user-select: none;
@@ -151,7 +151,7 @@
     position: absolute;
     left: 50%;
     margin-left: -40px;
-    top: 75%;
+    top: 50%;
     z-index: 30000;
 }
 
@@ -164,7 +164,7 @@
     left: 50%;
     margin-left: -40px;
     cursor: pointer;
-    top: 75%;
+    top: 50%;
     z-index: 30000;
     animation: rotate-2 1s linear infinite;
 }
