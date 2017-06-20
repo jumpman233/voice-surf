@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="23d3d022-b6d2-48fe-8330-cbc5167e4e45" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/default.css" afterPath="$PROJECT_DIR$/css/default.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/input.css" afterPath="$PROJECT_DIR$/css/input.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app/menu.js" afterPath="$PROJECT_DIR$/js/app/menu.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -383,7 +380,7 @@
       <workItem from="1497080679171" duration="1601000" />
       <workItem from="1497231986621" duration="24277000" />
       <workItem from="1497266269657" duration="28698000" />
-      <workItem from="1497400592853" duration="1873000" />
+      <workItem from="1497400592853" duration="2522000" />
     </task>
     <task id="LOCAL-00001" summary="add new functions">
       <created>1497232448456</created>
@@ -455,11 +452,18 @@
       <option name="project" value="LOCAL" />
       <updated>1497328552614</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="fix bug">
+      <created>1497402570587</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1497402570587</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="100106000" />
+    <option name="totallyTimeSpent" value="100755000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="95" y="-8" width="1279" height="784" extended-state="6" />
@@ -494,12 +498,12 @@
     <MESSAGE value="add new file" />
     <MESSAGE value="finish main menu" />
     <MESSAGE value="finish input part" />
-    <MESSAGE value="fix bug" />
     <MESSAGE value="commit" />
     <MESSAGE value="finish another animate" />
     <MESSAGE value="finish all" />
     <MESSAGE value="delete unuse code" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete unuse code" />
+    <MESSAGE value="fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
